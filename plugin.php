@@ -79,9 +79,17 @@ textarea[name=productsLite] { width: 100%; height: 20em; }
 
     public function the_content($page) {
         echo "<h1>Products Go here</h1>";
-        echo "<pre>";
-        print_r($page->plugins->productsLite);
-        echo "</pre>";
+        foreach($page->plugins->productsLite->products as $product) {
+            print("<div id='{$product->id}'><h2>{$product->name}</h2>
+               <p>Price {$product->price}</p>");
+            if(!empty($product->options)) {
+                print("<h3>Options</h3>");
+                foreach($product->options as $option) {
+                    print("<p>{$option->name}: Add {$option->price}</p>");
+                }
+            }
+            print("</div>");
+        }
     }
 }
 
