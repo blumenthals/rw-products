@@ -17,13 +17,14 @@ class ProductsLite extends RWPlugin {
         var productTemplate = {
             name: "Product Name Here",
             id: "productID",
-            price: "$0.00",
+            price: "0.00",
             taxable: false,
-            weight: "15 lb",
+            weight: "15",
+            imageURL: "",
             options: {
                 Category: {
                     name: "Option Name",
-                    price: "$0.00"
+                    price: "0.00"
                 }
             }
         }
