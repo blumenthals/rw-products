@@ -18,12 +18,14 @@ class ProductsLite extends RWPlugin {
             name: "Product Name Here",
             id: "productID",
             price: "$0.00",
-            options: [
-                {
+            taxable: false,
+            weight: "15 lb",
+            options: {
+                Category: {
                     name: "Option Name",
                     price: "$0.00"
                 }
-            ]
+            }
         }
 
         var ta = $('textarea[name=productsLite]')
@@ -41,7 +43,7 @@ class ProductsLite extends RWPlugin {
 
         var update = function update(data) {
             ta.attr('disabled', null)
-            ta.val(JSON.stringify(data, undefined, 2))
+            ta.val(JSON.stringify(data, undefined, 1))
             validate.apply(ta.get(0))
             pagedata.plugins.productsLite = data
         }
@@ -80,8 +82,16 @@ textarea[name=productsLite] { width: 100%; height: 20em; }
     public function the_content($page) {
         echo "<h1>Products Go here</h1>";
         foreach($page->plugins->productsLite->products as $product) {
-            print("<div id='{$product->id}'><h2>{$product->name}</h2>
-               <p>Price {$product->price}</p>");
+            $taxable = $product->taxable ? 'Y' : 'N';
+            if($product->imageURL) {
+                $img = "<p><img src='{$product->imageURL}'></p>";
+            }
+            print("<div id='{$product->sku}'><h2>{$product->name}</h2>
+                <p>{$product->description}</p>
+                $img
+                <p>Price {$product->price}</p>
+                <p>Weight {$product->weight}</p>
+                <p>Taxable {$taxable}</p>");
             if(!empty($product->options)) {
                 print("<h3>Options</h3>");
                 foreach($product->options as $option) {
