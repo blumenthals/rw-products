@@ -22,10 +22,12 @@ class ProductsLite extends RWPlugin {
             weight: "15",
             imageURL: "",
             options: {
-                Category: {
-                    name: "Option Name",
-                    price: "0.00"
-                }
+                Category: [ 
+                    {
+                        name: "Option Name",
+                        price: "0.00"
+                    }
+                ]
             }
         }
 
