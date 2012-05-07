@@ -4,7 +4,7 @@ class Products extends RWPlugin {
 
     public function __construct($rapidweb) {
         parent::__construct($rapidweb);
-        $rapidweb->register_pagetype('products-lite', $this);
+        $rapidweb->registerPagetype('products', $this);
     }
 
     public function do_editor_head() {
