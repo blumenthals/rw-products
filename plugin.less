@@ -1,0 +1,34 @@
+textarea[name=products] { width: 100%; height: 20em; }
+.rwProducts-input {
+    width: 640px;
+
+    input, textarea { padding: 4px; }
+    input { height: 2em; }
+
+    .productImage {
+        img {
+            width: 120px; height: 120px;
+        }
+    }
+
+    .productOptions {
+        overflow: scroll;
+        overflow-y: hidden;
+        .productOption {
+            display: table-cell;
+            width: 300px;
+            min-width: 300px;
+            padding-right: 1em;
+            input {
+                width: 100%;
+            }
+            .optionName {
+                width: 75%;
+            }
+            .optionPrice {
+                width: 25%;
+            }
+        }
+    }
+
+}
