@@ -1,4 +1,4 @@
-(function(){
+(function($) {
     /*
     var productTemplate = {
         name: "Product Name Here",
@@ -105,7 +105,7 @@
         }
     })
 
-    jQuery(function($) {
+    $(function() {
         /*
         if(!pagedata.plugins.products) pagedata.plugins.products= {};
         if(!pagedata.plugins.products.products) pagedata.plugins.products.products = [];
@@ -137,15 +137,10 @@
        */
 
         var editor = new ProductEditorView({model: new Product})
-        /*
-        var editor = $('.rwProducts-input')
-        editor.modal({show: false}).hide();
-       */
-
 
         $('#addproduct').click(function(ev) {
             editor.show();
             ev.preventDefault();
         })
     })
-})();
+})(jQuery);
