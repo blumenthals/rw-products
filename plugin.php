@@ -8,8 +8,11 @@ class Products extends RWPlugin {
     }
 
     public function do_editor_head() {
+        // needs underscore too
         ?>
-        <script src='rw-global/bootstrap/js/bootstrap-modal.js'></script>
+        <script src='rw-global/bootstrap/js/bootstrap-modal.js'></script> <!--FIXME! -->
+        <script src='rw-global/backbone/backbone-min.js'></script>
+        <script src='rw-global/backbone.modelbinder/Backbone.ModelBinder.min.js'></script>
         <?php
         $this->loadJavascript('editor.js');
     }
