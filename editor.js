@@ -140,7 +140,6 @@
 
         $('#addproduct').click(function(ev) {
             editor.show();
-            ev.preventDefault();
         })
     })
 })(jQuery);
