@@ -138,7 +138,7 @@
 
         var editor = new ProductEditorView({model: new Product})
 
-        $('#addproduct').click(function(ev) {
+        $('#products_editor').on('click', '#addproduct', function(ev) {
             editor.show();
         })
     })
