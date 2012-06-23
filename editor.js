@@ -1,145 +1,238 @@
 (function($) {
-    /*
-    var productTemplate = {
-        name: "Product Name Here",
-        id: "productID",
-        price: "0.00",
-        taxable: false,
-        weight: "15",
-        imageURL: "",
-        options: {
-            Category: [ 
-                {
-                    name: "Option Name",
-                    price: "0.00"
-                }
-            ]
-        }
-    };
-    */
-
-    var ProductOption = Backbone.Model.extend({
+    var Option = Backbone.Model.extend({
     })
 
-    var ProductOptions = Backbone.Collection.extend({
-        model: ProductOption
+    var Options = Backbone.Collection.extend({
+        model: Option
+    })
+
+    var OptionGroup = Backbone.Model.extend({
+        initialize: function() {
+            if (!this.options) {
+                this.options = new Options();
+            }
+            while (this.options.length < 4) {
+                this.options.add(new Option());
+            }
+        },
+        parse: function(response) {
+            if (response && response.options) {
+                this.options = new Options(response.options, {parse: true});
+            }
+            return response;
+        },
+        toJSON: function() {
+            var out = _.clone(this.attributes);
+            out.options = this.options.toJSON();
+            return out;
+        }
+    })
+
+    var OptionGroups = Backbone.Collection.extend({
+        model: OptionGroup
     })
 
     var Product = Backbone.Model.extend({
         initialize: function() {
-            this.set('options', new ProductOptions())
-        },
-        embeds: {
-            options: ProductOptions,
+            if (!this.options) this.options = new OptionGroups();
         },
         parse: function(response) {
-            response.options = new ProductOptions(response.options, {parse: true});
+            if (response && response.options) {
+                this.options = new OptionGroups(response.options, {parse: true});
+            }
+            return response;
+        },
+        toJSON: function() {
+            var out = _.clone(this.attributes)
+            out.options = this.options.toJSON()           
+            return out
         }
     })
 
-    var ProductView = Backbone.View.extend({
-        initialize: function() {
-            this.collection = this.model.get('options')
-            this.modelBinder = new Backbone.ModelBinder;
-            this.optionViews = this.collection.map(function(option) {
-                new ProductOptionView({ model: option })
-            })
-            this.collection.bind('add', _.bind(this.optionAdded, this))
-            this.render();
-        },
-        optionAdded: function(option) {
-            console.log('option added')
-            var view = new ProductOptionView({model: option})
-            this.optionViews.push(view)
-            if (this._rendered) this.$('.productOptions').append(view.render().el)
-        },
-        render: function() {
-            this._rendered = true;
-            //this.$el.html(this.template());
-            _(this.optionViews).each(_.bind(function(option) {
-                this.$('.productOptions').append(option.render().el)
-            }, this))
-            this.modelBinder.bind(this.model, this.el);
-            return this;
-        },
-        close: function(){
-            this.modelBinder.unbind();
-        },
-        addOption: function() {
-            console.log('product.addOption')
-            this.collection.add(new ProductOption());
-        }
-    });
-
-    var ProductOptionView = Backbone.View.extend({
-        initialize: function() {
-            this.template = _.template($('#optionTemplate').html())
-            this.render();
-        },
-        render: function() {
-            this.setElement(this.template(this.model))
-            return this;
+    var Products = Backbone.Collection.extend({
+        model: Product,
+        url: function() {
+            return $('link[rel=products]').attr('href')
         }
     })
 
     var ProductEditorView = Backbone.View.extend({
         initialize: function() {
+            this.collection = this.model.options;
+            this.optionGroupViews = this.collection.map(function(option) {
+                return new OptionGroupEditorView({ model: option })
+            })
+            this.collection.bind('add', _.bind(this.optionGroupAdded, this))
+        },
+        optionGroupAdded: function(option) {
+            var view = new OptionGroupEditorView({model: option})
+            this.optionGroupViews.push(view)
+            this.$('.productOptionGroups').append(view.render().el)
+        },
+        render: function() {
+            //this.$el.html(this.template());
+            _(this.optionGroupViews).each(_.bind(function(v) {
+                console.log(v);
+                this.$('.productOptionGroups').append(v.render().el)
+            }, this))
+            return this.bindModel();
+        },
+        bindings: {
+            'value [name="title"]' : 'title',
+            'value [name="price"]' : 'price',
+            'value [name="info"]' : 'info',
+            'value [name="weight"]' : 'weight',
+            'value [name="sku"]' : 'sku',
+            'value [name="description2"]' : 'description2',
+            'value [name="description"]' : 'description'
+        },
+        addOptionGroup: function() {
+            this.collection.add(new OptionGroup());
+        }
+    });
+
+    var OptionGroupEditorView = Backbone.View.extend({
+        initialize: function() {
+            this.template = _.template($('#ProductOptionGroupEditor').html())
+            this.collection = this.model.options; 
+            this.optionViews = this.collection.map(function(option) {
+                return new OptionEditorView({ model: option })
+            });
+            this.collection.bind('add', _.bind(this.optionAdded, this));
+            this.collection.bind('reset', _.bind(this.onReset, this))
+            this.onReset();
+        },
+        onReset: function() {
+            this.optionViews = [];
+            this.$el.children().remove();
+            this.collection.each(_.bind(this.optionAdded, this))
+        },
+        optionAdded: function(option) {
+            var view = new OptionEditorView({model: option})
+            this.optionViews.push(view)
+            this.$('.productOptions').append(view.render().el)
+        },
+        bindings: {
+            'value [name="optionGroupName"]': 'name'
+        },
+        render: function() {
+            this.setElement(this.template())
+            _.each(this.optionViews, _.bind(function(view) {
+                this.$el.append(view.render().$el);
+            }, this));
+            return this.bindModel();
+        }
+    })
+
+
+    var OptionEditorView = Backbone.View.extend({
+        initialize: function() {
+            this.template = _.template($('#ProductOptionEditor').html());
+        },
+        bindings: {
+            'value [name="optionName"]': 'name',
+            'value [name="optionPrice"]': 'price'
+        },
+        render: function() {
+            this.setElement(this.template())
+            return this.bindModel();
+        }
+    });
+
+    var ProductThumbnailView = Backbone.View.extend({
+        initialize: function() {
+            this.template = _.template($('#ProductThumbnailView').html())
+        },
+        events: {
+            'click': 'openEditor'
+        },
+        openEditor: function() {
+            var editor = new ProductEditorModal({model: this.model})
+            editor.render().show();
+        },
+        bindings: {
+            'text .field-title': 'title',
+            'text .field-price': 'price'
+        },
+        render: function() {
+            this.setElement(this.template())
+            return this.bindModel();
+        }
+    });
+
+    var ProductEditorModal = Backbone.View.extend({
+        initialize: function() {
             this.template = _.template($('#productsEditorTemplate').html())
-            this.render();
-            this.productsView = new ProductView({el: this.$('.modal-body'), model: this.model});
         },
         render: function() {
             this.setElement(this.template(this.model));
+            this.productsView = new ProductEditorView({el: this.$('.modal-body'), model: this.model});
+            this.productsView.render();
+
             this.$el.modal({show: false}).hide();
             return this;
         },
         events: {
-            'click .addOption': 'addOption'
+            'click .addOptionGroup': 'addOptionGroup',
+            'click .dump': 'dump',
+            'click .btn.save': 'save'
         },
-        addOption: function() {
-            console.log('editor.addOption');
-            this.productsView.addOption();
+        addOptionGroup: function() {
+            this.productsView.addOptionGroup();
+        },
+        dump: function() {
+            console.log(this.model.toJSON())
+        },
+        save: function() {
+            this.model.save();
         },
         show: function() {
             this.$el.modal('show');
+        },
+        close: function() {
+            this.$el.remove();
         }
-    })
+    });
+
+    var ProductListView = Backbone.View.extend({
+        initialize: function() {
+            this.collection.bind('add', _.bind(this.productAdded, this))
+            this.collection.bind('reset', _.bind(this.onReset, this))
+            this.onReset();
+        },
+        onReset: function(e) {
+            this.productViews = [];
+            this.$el.children().remove();
+            this.collection.each(_.bind(this.productAdded, this))
+        },
+        render: function() {
+            _.each(this.productViews, _.bind(function(view) {
+                this.$el.append(view.$el);
+            }, this));
+            return this;
+        },
+        productAdded: function(product) {
+            var view = new ProductThumbnailView({model: product})
+            this.productViews.push(view)
+            this.$el.append(view.render().$el);
+        }
+    });
 
     $(function() {
-        /*
-        if(!pagedata.plugins.products) pagedata.plugins.products= {};
-        if(!pagedata.plugins.products.products) pagedata.plugins.products.products = [];
+        var products = new Products();
+        window.p = products;
 
-        var ta = $('textarea[name=products]')
-
-        var validate = function validate() {
-            try {
-                pagedata.plugins.products= JSON.parse(this.value)
-                $('#status').text('Valid')
-                $('input,button').attr('disabled', null);
-            } catch(e) {
-                $('#status').text('invalid')
-                $('input,button').attr('disabled', 'disabled');
-            }
-        }
-
-        var update = function update(data) {
-            ta.attr('disabled', null)
-            ta.val(JSON.stringify(data, undefined, 1))
-            validate.apply(ta.get(0))
-            pagedata.plugins.products= data
-        }
-
-        ta.change(validate)
-        ta.keyup(validate)
-
-        update(pagedata.plugins.products)
-       */
-
-        var editor = new ProductEditorView({model: new Product})
+        products.fetch({success: function() {
+            var productListView = new ProductListView({collection: products});
+            window.v = productListView;
+            $('.rw-products').append(productListView.render().$el);
+        }})
 
         $('#products_editor').on('click', '#addproduct', function(ev) {
-            editor.show();
+            var product = new Product;
+            products.add(product);
+            var editor = new ProductEditorModal({model: product})
+            editor.render().show();
         })
     })
 })(jQuery);
