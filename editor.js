@@ -78,6 +78,7 @@
             return this.bindModel();
         },
         bindings: {
+            'src .productImage img': 'image',
             'value [name="title"]' : 'title',
             'value [name="price"]' : 'price',
             'value [name="info"]' : 'info',
@@ -235,4 +236,16 @@
             editor.render().show();
         })
     })
+
+    Backbone.View.Binders.src = function(model, attribute, property) {
+        return {
+            get: function() {
+                return this.attr('src');
+            },
+            set: function(value) {
+                this.attr('src', value);
+            }
+        };
+    };
+
 })(jQuery);
