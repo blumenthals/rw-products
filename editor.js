@@ -180,6 +180,10 @@
             'click .btn.save': 'save'
         },
         uploadImage: function() {
+            var self = this;
+            this.$('.file-upload iframe').one('load', function() {
+                self.$('.file-upload').get(0).reset();
+            })
             this.$('.file-upload').submit();
         },
         addOptionGroup: function() {

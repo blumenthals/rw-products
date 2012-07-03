@@ -27,7 +27,10 @@
         </div>
         <div class="modal-footer">
             <button class='btn addOptionGroup'>Add Option</button>
-            <form action='/' method='post' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'><label>Upload Product Image</label><input type='file' name='image'><iframe id='fileUploadFrame'></iframe></form>
+            <form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
+                <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
+                <label>Upload Product Image</label><input type='file' name='img'><iframe id='fileUploadFrame'></iframe>
+            </form>
             <button class='btn dump'>Debug Dump</button>
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <a href="#" class="btn save btn-primary">Save</a>
