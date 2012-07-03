@@ -176,7 +176,11 @@
         events: {
             'click .addOptionGroup': 'addOptionGroup',
             'click .dump': 'dump',
+            'change .file-upload input': 'uploadImage',
             'click .btn.save': 'save'
+        },
+        uploadImage: function() {
+            this.$('.file-upload').submit();
         },
         addOptionGroup: function() {
             this.productsView.addOptionGroup();

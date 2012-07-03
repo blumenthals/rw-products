@@ -27,8 +27,8 @@
         </div>
         <div class="modal-footer">
             <button class='btn addOptionGroup'>Add Option</button>
-            <button class='btn uploadProductImage'>Upload Product Image</button>
-            <button class='btn dump'>Dump</button>
+            <form action='/' method='post' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'><label>Upload Product Image</label><input type='file' name='image'><iframe id='fileUploadFrame'></iframe></form>
+            <button class='btn dump'>Debug Dump</button>
             <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <a href="#" class="btn save btn-primary">Save</a>
         </div>
