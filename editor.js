@@ -199,11 +199,14 @@
         },
         save: function() {
             this.model.save();
+            this.$el.modal('hide');
+            this.$el.remove();
         },
         show: function() {
             this.$el.modal('show');
         },
         close: function() {
+            this.$el.modal('hide');
             this.$el.remove();
         }
     });
