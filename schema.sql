@@ -8,7 +8,8 @@ CREATE TABLE products (
     price NUMERIC,
     weight NUMERIC,
     `group` VARCHAR(256) NOT NULL,
-    image VARCHAR(256)
+    image VARCHAR(256),
+    thumbnail VARCHAR(256)
 );
 
 CREATE TABLE product_option_groups (

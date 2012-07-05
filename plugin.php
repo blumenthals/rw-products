@@ -11,29 +11,39 @@ class Products extends RWPlugin {
         $this->productsURL = $rapidweb->registerResourceHandler('products', '!products/(?<product_group>[^/]+)(?:/(?<id>[0-9]+))?!', array($this, 'productsResource'));
     }
 
+    private function getProducts($group) {
+        $productQ = $this->dbc->prepare("SELECT * FROM products WHERE `group` = :group");
+        $productQ->execute(array('group' => $group));
+        $result = $productQ->fetchAll();
+        
+        $groupQ = $this->dbc->prepare("SELECT * FROM product_option_groups WHERE `product_id` = :id");
+        $optionQ = $this->dbc->prepare("SELECT * FROM product_options WHERE `product_group_id` = :id");
+
+        $results = array();
+        foreach($result as $res) {
+            unset($res['group']);
+            $groupQ->execute(array('id' => $res['id']));
+            $res['options'] = $groupQ->fetchAll();
+            foreach ($res['options'] as &$optGroup) {
+                $optionQ->execute(array('id' => $optGroup['id']));
+                $optGroup['options'] = $optionQ->fetchAll();
+            }
+
+            $results[] = new ArrayObject($res, ArrayObject::ARRAY_AS_PROPS);
+        }
+
+        return $results;
+    }
+
     public function productsResource($request, $response) {
         if ($request->method == 'GET') {
             $response->setHeader('Content-Type', 'application/json');
-            $productQ = $this->dbc->prepare("SELECT * FROM products WHERE `group` = :group");
-            $productQ->execute(array('group' => $request['product_group']));
-            $result = $productQ->fetchAll();
-            
-            $groupQ = $this->dbc->prepare("SELECT * FROM product_option_groups WHERE `product_id` = :id");
-            $optionQ = $this->dbc->prepare("SELECT * FROM product_options WHERE `product_group_id` = :id");
-            foreach($result as &$res) {
-                unset($res['group']);
-                $groupQ->execute(array('id' => $res['id']));
-                $res['options'] = $groupQ->fetchAll();
-                foreach ($res['options'] as &$optGroup) {
-                    $optionQ->execute(array('id' => $optGroup['id']));
-                    $optGroup['options'] = $optionQ->fetchAll();
-                }
-            }
+            $result = $this->getProducts($request['product_group']);
 
             $response->body = json_encode($result);
 
         } elseif ($request->method == 'POST') {
-            $sth = $this->dbc->prepare("INSERT INTO products (title, description, `group`, info, sku, price, weight, image) VALUES (:title, :description, :group, :info, :sku, :price, :weight, :image)");
+            $sth = $this->dbc->prepare("INSERT INTO products (title, description, `group`, info, sku, price, weight, image, thumbnail) VALUES (:title, :description, :group, :info, :sku, :price, :weight, :image, :thumbnail)");
             $sth->execute(array(
                 ':group' => $request['product_group'],
                 ':title' => $request->content->title,
@@ -42,7 +52,8 @@ class Products extends RWPlugin {
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
-                ':image' => $request->content->image
+                ':image' => $request->content->image,
+                ':thumbnail' => $request->content->thumbnail
             ));
 
             $id = $sth->lastInsertId();
@@ -59,7 +70,7 @@ class Products extends RWPlugin {
 
         } elseif ($request->method == 'PUT') {
             $this->dbc->beginTransaction();
-            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image WHERE id = :id");
+            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail WHERE id = :id");
             $sth->execute(array(
                 ':id' => $request['id'],
                 ':group' => $request['product_group'],
@@ -69,7 +80,8 @@ class Products extends RWPlugin {
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
-                ':image' => $request->content->image
+                ':image' => $request->content->image,
+                ':thumbnail' => $request->content->thumbnail
             ));
 
             $sth = $this->dbc->prepare("DELETE FROM product_options WHERE product_group_id IN (SELECT id FROM product_option_groups WHERE product_id = :id)");

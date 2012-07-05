@@ -78,7 +78,7 @@
             return this.bindModel();
         },
         bindings: {
-            'src .productImage img': 'image',
+            'src .productImage img': 'thumbnail',
             'value [name="title"]' : 'title',
             'value [name="price"]' : 'price',
             'value [name="info"]' : 'info',
@@ -186,7 +186,7 @@
                 var imageData = JSON.parse(self.$('.file-upload iframe').contents().contents().text());
                 console.log(imageData);
                 self.model.set('image', imageData.$insertAll.gallery[0].image);
-                //self.model.set('thumbnail', imageData.$insertAll.gallery.[0].thumbnail);
+                self.model.set('thumbnail', imageData.$insertAll.gallery[0].thumbnail);
             })
             console.log("submitting");
             this.$('.file-upload').submit();
