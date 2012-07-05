@@ -1,4 +1,4 @@
-<link rel='products' href='<?php echo $this->productsURL ?>/products'><!-- FIXME, use pagename -->
+<link rel='products' href='<?php echo $this->productsURL ?>/<?php echo $view->page->pagename ?>'>
 <script type='text/html' id='productsEditorTemplate'>
     <div class='modal rwProducts-input'>
         <div class="modal-header">

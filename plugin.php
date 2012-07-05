@@ -141,28 +141,9 @@ class Products extends RWPlugin {
     }
 
     public function the_content($page) {
-        echo "<h1>Products Go here</h1>";
-        echo "Not done yet";
-        return;
-        foreach($page->plugins->products->products as $product) {
-            $taxable = $product->taxable ? 'Y' : 'N';
-            if($product->imageURL) {
-                $img = "<p><img src='{$product->imageURL}'></p>";
-            }
-            print("<div id='{$product->sku}'><h2>{$product->name}</h2>
-                <p>{$product->description}</p>
-                $img
-                <p>Price {$product->price}</p>
-                <p>Weight {$product->weight}</p>
-                <p>Taxable {$taxable}</p>");
-            if(!empty($product->options)) {
-                print("<h3>Options</h3>");
-                foreach($product->options as $option) {
-                    print("<p>{$option->name}: Add {$option->price}</p>");
-                }
-            }
-            print("</div>");
-        }
+        $request = new Rapidweb\Request($_REQUEST, $_SERVER, $_FILES);
+        $response = new Rapidweb\Response();
+        include __DIR__.'/products.php';
     }
 }
 
