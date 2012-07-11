@@ -145,7 +145,17 @@
             this.template = _.template($('#ProductThumbnailView').html())
         },
         events: {
-            'click': 'openEditor'
+            'click': 'openEditor',
+            'click .doDelete': 'deleteItem',
+            'click .hideItem': 'hideItem'
+        },
+        deleteItem: function(ev) {
+            console.log("Delete");
+            ev.stopPropagation();
+        },
+        hideItem: function(ev) {
+            console.log("Hide");
+            ev.stopPropagation();
         },
         openEditor: function() {
             var editor = new ProductEditorModal({model: this.model})

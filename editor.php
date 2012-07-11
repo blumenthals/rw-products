@@ -70,7 +70,9 @@
 </script>
 <script type='text/html' id='ProductThumbnailView'>
     <div class='rw-product-thumbnail'>
-        <img src='' class='field-image'>
+        <button class='doHide'>#</button>
+        <button class='doDelete'>X</button>
+        <img src='' class='image'>
         <p class='field-title'>Product Name</p>
         <p class='field-price'>Price</p>
     </div>
