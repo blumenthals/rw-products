@@ -162,6 +162,7 @@
             editor.render().show();
         },
         bindings: {
+            'src .image' : 'thumbnail',
             'text .field-title': 'title',
             'text .field-price': 'price'
         },
