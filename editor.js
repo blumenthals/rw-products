@@ -223,6 +223,9 @@
     });
 
     var ProductListView = Backbone.View.extend({
+        events: {
+            'sortupdate': 'handleSort'
+        },
         initialize: function() {
             this.collection.bind('add', _.bind(this.productAdded, this))
             this.collection.bind('reset', _.bind(this.onReset, this))
@@ -237,12 +240,16 @@
             _.each(this.productViews, _.bind(function(view) {
                 this.$el.append(view.$el);
             }, this));
+            this.$el.sortable();
             return this;
         },
         productAdded: function(product) {
             var view = new ProductThumbnailView({model: product})
             this.productViews.push(view)
             this.$el.append(view.render().$el);
+        },
+        handleSort: function(ev, ui) {
+            console.log(ev, ui);
         }
     });
 
