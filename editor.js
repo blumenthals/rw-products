@@ -147,24 +147,26 @@
         events: {
             'click': 'openEditor',
             'click .doDelete': 'deleteItem',
-            'click .hideItem': 'hideItem'
+            'click .doHide': 'hideItem'
         },
         deleteItem: function(ev) {
             console.log("Delete");
             ev.stopPropagation();
         },
         hideItem: function(ev) {
-            console.log("Hide");
-            ev.stopPropagation();
+            this.model.set('hidden', !this.model.get('hidden'))
+            this.model.save()
+            ev.stopPropagation()
         },
         openEditor: function() {
             var editor = new ProductEditorModal({model: this.model})
-            editor.render().show();
+            editor.render().show()
         },
         bindings: {
             'src .image' : 'thumbnail',
             'text .field-title': 'title',
-            'text .field-price': 'price'
+            'text .field-price': 'price',
+            'class': ['hidden', function(val) { return val ? 'hidden' : null }]
         },
         render: function() {
             this.setElement(this.template())

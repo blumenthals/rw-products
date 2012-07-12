@@ -5,6 +5,7 @@ CREATE TABLE products (
     description2 TEXT,
     info VARCHAR(255),
     sku VARCHAR(64),
+    hidden TINYINT,
     price NUMERIC,
     weight NUMERIC,
     `group` VARCHAR(256) NOT NULL,

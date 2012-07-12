@@ -43,7 +43,7 @@ class Products extends RWPlugin {
             $response->body = json_encode($result);
 
         } elseif ($request->method == 'POST') {
-            $sth = $this->dbc->prepare("INSERT INTO products (title, description, `group`, info, sku, price, weight, image, thumbnail) VALUES (:title, :description, :group, :info, :sku, :price, :weight, :image, :thumbnail)");
+            $sth = $this->dbc->prepare("INSERT INTO products (title, description, `group`, info, sku, price, weight, image, thumbnail) VALUES (:title, :description, :group, :info, :sku, :price, :weight, :image, :thumbnail, :hidden)");
             $sth->execute(array(
                 ':group' => $request['product_group'],
                 ':title' => $request->content->title,
@@ -53,7 +53,8 @@ class Products extends RWPlugin {
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
                 ':image' => $request->content->image,
-                ':thumbnail' => $request->content->thumbnail
+                ':thumbnail' => $request->content->thumbnail,
+                ':hidden' => $request->content->hidden,
             ));
 
             $id = $sth->lastInsertId();
@@ -70,7 +71,7 @@ class Products extends RWPlugin {
 
         } elseif ($request->method == 'PUT') {
             $this->dbc->beginTransaction();
-            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail WHERE id = :id");
+            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail, hidden = :hidden WHERE id = :id");
             $sth->execute(array(
                 ':id' => $request['id'],
                 ':group' => $request['product_group'],
@@ -81,7 +82,8 @@ class Products extends RWPlugin {
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
                 ':image' => $request->content->image,
-                ':thumbnail' => $request->content->thumbnail
+                ':thumbnail' => $request->content->thumbnail,
+                ':hidden' => $request->content->hidden,
             ));
 
             $sth = $this->dbc->prepare("DELETE FROM product_options WHERE product_group_id IN (SELECT id FROM product_option_groups WHERE product_id = :id)");
