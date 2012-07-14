@@ -70,6 +70,16 @@ class Products extends RWPlugin {
                 ));
             }
 
+        } elseif ($request->method == 'DELETE') {
+            $this->dbc->beginTransaction();
+            $sth = $this->dbc->prepare("DELETE FROM product_options WHERE product_group_id IN (SELECT id FROM product_option_groups WHERE product_id = :id)");
+            $sth->execute(array(':id' => $request['id']));
+
+            $sth = $this->dbc->prepare("DELETE FROM product_option_groups WHERE product_id = :id");
+            $sth->execute(array(':id' => $request['id']));
+            $sth = $this->dbc->prepare("DELETE FROM products WHERE id = :id");
+            $sth->execute(array(':id' => $request['id']));
+            $this->dbc->commit();
         } elseif ($request->method == 'PUT') {
             $this->dbc->beginTransaction();
             $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail, hidden = :hidden, sortOrder = :sortOrder WHERE id = :id");

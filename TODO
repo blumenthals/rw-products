@@ -2,7 +2,7 @@ TODO
 ====
 
 * insertion marker, whole square
-* Delete button both on thumbnail and inside the product with confirmation
+* Delete button inside the product with confirmation
 * Ability to remove option categories
   * Separate editor for options (need at least 7 options)
 * Master kill switch for products, global across the site

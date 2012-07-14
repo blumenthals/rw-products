@@ -150,7 +150,7 @@
             'click .doHide': 'hideItem'
         },
         deleteItem: function(ev) {
-            console.log("Delete");
+            if(confirm("Delete?")) this.model.destroy();
             ev.stopPropagation();
         },
         hideItem: function(ev) {
@@ -211,6 +211,9 @@
             console.log(this.model.toJSON())
         },
         save: function() {
+            if (!this.model.collection) {
+                this.options.saveTo.add(this.model);
+            }
             this.model.save();
             this.$el.modal('hide');
             this.$el.remove();
@@ -276,8 +279,7 @@
 
         $('#products_editor').on('click', '#addproduct', function(ev) {
             var product = new Product;
-            products.add(product);
-            var editor = new ProductEditorModal({model: product})
+            var editor = new ProductEditorModal({model: product, saveTo: products})
             editor.render().show();
         })
     })
