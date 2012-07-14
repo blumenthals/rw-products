@@ -35,11 +35,13 @@ textarea[name=products] { width: 100%; height: 20em; }
 
 .rw-products {
     position: relative;
+    clear: both;
 }
 
 .rw-product-thumbnail {
     width: 100px;
-    float: left;
+    vertical-align: top;
+    display: inline-block;
     &.hidden {
         opacity: 0.5;
     }

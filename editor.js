@@ -226,7 +226,7 @@
 
     var ProductListView = Backbone.View.extend({
         events: {
-            'sortupdate': 'handleSort'
+            'sortupdate': 'handleSortUpdate'
         },
         initialize: function() {
             this.collection.bind('add', _.bind(this.productAdded, this))
@@ -240,9 +240,10 @@
         },
         render: function() {
             _.each(this.productViews, _.bind(function(view) {
+                view.$el.data('view', view)
                 this.$el.append(view.$el);
             }, this));
-            this.$el.sortable();
+            this.$el.sortable({ forcePlaceholderSize: true, tolerance: 'pointer' });
             return this;
         },
         productAdded: function(product) {
@@ -250,8 +251,16 @@
             this.productViews.push(view)
             this.$el.append(view.render().$el);
         },
-        handleSort: function(ev, ui) {
+        handleSortUpdate: function(ev, ui) {
             console.log(ev, ui);
+            var i = 0;
+            this.$('div').each(function() {
+                $(this).data('view').model.set('sortOrder', i++)
+            })
+            console.log(this.collection)
+            this.collection.each(function(model) {
+                model.save()
+            })
         }
     });
 

@@ -8,6 +8,7 @@ CREATE TABLE products (
     hidden TINYINT,
     price NUMERIC,
     weight NUMERIC,
+    sortOrder INTEGER,
     `group` VARCHAR(256) NOT NULL,
     image VARCHAR(256),
     thumbnail VARCHAR(256)
