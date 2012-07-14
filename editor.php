@@ -77,6 +77,21 @@
         <p class='field-price'>Price</p>
     </div>
 </script>
+<div class='action-button-holder'>
+    <button class='btn' id='addproduct'>Add Product</button>
+</div>
+<div class='instructions'>
+    <h3 style="border-bottom: solid 2px #C54808;">Instructions</h3>
+
+    <li>Drag a product to re-arrange it.</li>
+    <li>Click on a product to edit it. </li>
+    <li>Click the 'X' on a product to remove it.</li>
+    <li>Click the '#' on a product to hide / show it.</li>
+    <li>JPEG, GIF and PNG files can all be uploaded.</li>
+    <li>Any photo over 1000 x 1000 pixels will be resized.</li>
+    <li>Be patient uploading. Uploading photos directly<br />
+        from a digital camera can be take some time.</li>
+</div>
+<div style="clear:both; padding-bottom:10px;"></div>
 <div class='rw-products'>
 </div>
-<button class='btn' id='addproduct'>Add Product</button>
