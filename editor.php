@@ -94,4 +94,5 @@
 </div>
 <div style="clear:both; padding-bottom:10px;"></div>
 <div class='rw-products'>
+          <div class='insertion-point'></div>
 </div>
