@@ -234,6 +234,7 @@
         initialize: function() {
             this.collection.bind('add', _.bind(this.productAdded, this))
             this.collection.bind('reset', _.bind(this.onReset, this))
+            this.collection.bind('remove', _.bind(this.handleRemove, this))
             this.onReset();
         },
         onReset: function(e) {
@@ -264,6 +265,10 @@
             this.collection.each(function(model) {
                 model.save()
             })
+        },
+        handleRemove: function(model, collection, options) {
+            var view = this.productViews[options.index]
+            view.el.parentNode.removeChild(view.el)
         }
     });
 
