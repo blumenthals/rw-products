@@ -165,7 +165,7 @@
         bindings: {
             'src .image' : 'thumbnail',
             'text .field-title': 'title',
-            'text .field-price': 'price',
+            'text .field-price': ['price', function(price) { return "$" + price }],
             'class': ['hidden', function(val) { return val ? 'hidden' : null }]
         },
         render: function() {
