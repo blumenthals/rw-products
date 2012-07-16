@@ -1,4 +1,6 @@
 (function($) {
+    "use strict";
+
     var Option = Backbone.Model.extend({
     })
 
