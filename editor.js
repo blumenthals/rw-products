@@ -74,7 +74,6 @@
         render: function() {
             //this.$el.html(this.template());
             _(this.optionGroupViews).each(_.bind(function(v) {
-                console.log(v);
                 this.$('.productOptionGroups').append(v.render().el)
             }, this))
             return this.bindModel();
@@ -201,11 +200,9 @@
             this.$('.file-upload iframe').one('load', function() {
                 self.$('.file-upload').get(0).reset();
                 var imageData = JSON.parse(self.$('.file-upload iframe').contents().contents().text());
-                console.log(imageData);
                 self.model.set('image', imageData.$insertAll.gallery[0].image);
                 self.model.set('thumbnail', imageData.$insertAll.gallery[0].thumbnail);
             })
-            console.log("submitting");
             this.$('.file-upload').submit();
         },
         addOptionGroup: function() {
