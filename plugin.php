@@ -58,10 +58,10 @@ class Products extends RWPlugin {
                 ':sortOrder' => $request->content->sortOrder,
             ));
 
-            $id = $sth->lastInsertId();
+            $id = $this->dbc->lastInsertId();
 
             foreach ($request->content->options as $option) {
-                $sth = $this->dbc->prepare("INSERT INTO product_options (name, product_id, option, price) VALUES (:name, :product_id, :option, :price)");
+                $sth = $this->dbc->prepare("INSERT INTO product_options (name, `product_id`, `option`, price) VALUES (:name, :product_id, :option, :price)");
                 $sth->execute(array(
                     ':product_id' => $id,
                     ':name' => $option->name,
@@ -69,6 +69,8 @@ class Products extends RWPlugin {
                     ':price' => $option->price
                 ));
             }
+
+            $response->body = json_encode(array('id' => $id)); 
 
         } elseif ($request->method == 'DELETE') {
             $this->dbc->beginTransaction();

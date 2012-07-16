@@ -38,34 +38,39 @@ textarea[name=products] { width: 100%; height: 20em; }
     clear: both;
 }
 
-.rw-product-thumbnail {
-    position: relative;
-    width: 100px;
-    vertical-align: top;
-    display: inline-block;
-    &.hidden {
-        opacity: 0.5;
+#products_editor {
+    .rw-product-thumbnail {
+        .tile;
+        img {
+            .border-radius(3px);
+        }
+        &.hidden {
+            opacity: 0.5;
+        }
+        .doDelete {
+            position: absolute;
+            right: 0;
+        }
+        .doHide {
+            position: absolute;
+            left: 0;
+        }
+        p {
+            text-align: center;
+        }
     }
-    .doDelete {
-        position: absolute;
-        right: 0;
-    }
-    .doHide {
-        position: absolute;
-        left: 0;
-    }
-}
 
-#product_editor {
     .insertion-point {
-        height: 154px;
-        width: 3px;
+        .tile;
         background-color: #D80;
+        height: 100px;
+    }
+
+    .tile {
+        position: relative;
+        width: 100px;
         display: inline-block;
-        margin-top: 4px;
-        margin-bottom: 4px;
-        margin-left: -1px;
-        margin-right: -2px;
+        margin: 0 6px;
+        vertical-align: top;
     }
 }
-

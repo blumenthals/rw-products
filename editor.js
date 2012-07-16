@@ -151,6 +151,7 @@
         },
         deleteItem: function(ev) {
             if(confirm("Delete?")) this.model.destroy();
+            this.$el.remove()
             ev.stopPropagation();
         },
         hideItem: function(ev) {
@@ -170,6 +171,7 @@
         },
         render: function() {
             this.setElement(this.template())
+            this.$el.data('view', this)
             return this.bindModel();
         }
     });
@@ -211,7 +213,7 @@
             console.log(this.model.toJSON())
         },
         save: function() {
-            if (!this.model.collection) {
+            if (this.model.isNew()) {
                 this.options.saveTo.add(this.model);
             }
             this.model.save();
@@ -234,18 +236,16 @@
         initialize: function() {
             this.collection.bind('add', _.bind(this.productAdded, this))
             this.collection.bind('reset', _.bind(this.onReset, this))
-            this.collection.bind('remove', _.bind(this.handleRemove, this))
             this.onReset();
         },
         onReset: function(e) {
             this.productViews = [];
-            this.$el.children().remove();
+            this.$el.children('.rw-product-thumbnail').remove();
             this.collection.each(_.bind(this.productAdded, this))
         },
         render: function() {
             _.each(this.productViews, _.bind(function(view) {
-                view.$el.data('view', view)
-                this.$el.append(view.$el);
+                this.$('.insertion-point').before(view.$el);
             }, this));
             this.$el.sortable({ forcePlaceholderSize: true, tolerance: 'pointer' });
             return this;
@@ -253,12 +253,12 @@
         productAdded: function(product) {
             var view = new ProductThumbnailView({model: product})
             this.productViews.push(view)
-            this.$el.append(view.render().$el);
+            this.$('.insertion-point').before(view.render().$el);
         },
         handleSortUpdate: function(ev, ui) {
             console.log(ev, ui);
             var i = 0;
-            this.$('div').each(function() {
+            this.$('.rw-products-thumbnail').each(function() {
                 $(this).data('view').model.set('sortOrder', i++)
             })
             console.log(this.collection)
@@ -266,10 +266,6 @@
                 model.save()
             })
         },
-        handleRemove: function(model, collection, options) {
-            var view = this.productViews[options.index]
-            view.el.parentNode.removeChild(view.el)
-        }
     });
 
     $(function() {
@@ -277,9 +273,9 @@
         window.p = products;
 
         products.fetch({success: function() {
-            var productListView = new ProductListView({collection: products});
+            var productListView = new ProductListView({el: $('.rw-products'), collection: products});
             window.v = productListView;
-            $('.rw-products').append(productListView.render().$el);
+            productListView.render();
         }})
 
         $('#products_editor').on('click', '#addproduct', function(ev) {
