@@ -240,7 +240,7 @@
         onReset: function(e) {
             this.productViews = [];
             this.$el.children('.rw-product-thumbnail').remove();
-            this.collection.each(_.bind(this.productAdded, this))
+            this.collection.each(_.bind(this.appendChildView, this))
         },
         render: function() {
             _.each(this.productViews, _.bind(function(view) {
@@ -249,20 +249,24 @@
             this.$el.sortable({ forcePlaceholderSize: true, tolerance: 'pointer' });
             return this;
         },
-        productAdded: function(product) {
+        appendChildView: function(product) {
             var view = new ProductThumbnailView({model: product})
             this.productViews.push(view)
             this.$('.insertion-point').before(view.render().$el);
         },
-        handleSortUpdate: function(ev, ui) {
-            console.log(ev, ui);
+        productAdded: function(product) {
+            this.appendChildView(product)
+            this.handleSortUpdate();
+        },
+        handleSortUpdate: function() {
             var i = 0;
-            this.$('.rw-products-thumbnail').each(function() {
-                $(this).data('view').model.set('sortOrder', i++)
-            })
-            console.log(this.collection)
-            this.collection.each(function(model) {
-                model.save()
+            this.$('.rw-product-thumbnail').each(function() {
+                var model = $(this).data('view').model
+                if (model.get('sortOrder') != i++)  {
+                    model.set('sortOrder', i)
+                    // Check model.isNew to make sure this isn't an object mid-save already
+                    if (!model.isNew()) model.save()
+                }
             })
         },
     });
