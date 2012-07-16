@@ -262,7 +262,7 @@
             var i = 0;
             this.$('.rw-product-thumbnail').each(function() {
                 var model = $(this).data('view').model
-                if (model.get('sortOrder') != i++)  {
+                if (model.get('sortOrder') != ++i)  {
                     model.set('sortOrder', i)
                     // Check model.isNew to make sure this isn't an object mid-save already
                     if (!model.isNew()) model.save()
