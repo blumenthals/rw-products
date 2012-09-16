@@ -195,7 +195,8 @@
             'click .addOptionGroup': 'addOptionGroup',
             'click .dump': 'dump',
             'change .file-upload input': 'uploadImage',
-            'click .btn.save': 'save'
+            'click .btn.save': 'save',
+            'click [data-dismiss=modal]': 'close'
         },
         uploadImage: function() {
             var self = this;
@@ -214,9 +215,6 @@
             console.log(this.model.toJSON())
         },
         save: function() {
-            if (this.model.isNew()) {
-                this.options.saveTo.add(this.model);
-            }
             this.model.save();
             this.$el.modal('hide');
             this.$el.remove();
@@ -227,6 +225,9 @@
         close: function() {
             this.$el.modal('hide');
             this.$el.remove();
+            if (this.model.isNew()) {
+                this.model.destroy();
+            }
         }
     });
 
@@ -235,8 +236,10 @@
             'sortupdate': 'handleSortUpdate'
         },
         initialize: function() {
-            this.collection.bind('add', _.bind(this.productAdded, this))
-            this.collection.bind('reset', _.bind(this.onReset, this))
+            _.bindAll(this);
+            this.collection.bind('add', this.productAdded, this)
+            this.collection.bind('reset', this.onReset, this)
+            this.collection.bind('remove', this.productRemoved, this)
             this.onReset();
         },
         onReset: function(e) {
@@ -253,12 +256,16 @@
         },
         appendChildView: function(product) {
             var view = new ProductThumbnailView({model: product})
-            this.productViews.push(view)
+            this.productViews[product.cid] = view;
             this.$('.insertion-point').before(view.render().$el);
         },
         productAdded: function(product) {
             this.appendChildView(product)
             this.handleSortUpdate();
+        },
+        productRemoved: function(product) {
+            this.productViews[product.cid].$el.remove();
+            delete this.productViews[product.cid]; 
         },
         handleSortUpdate: function() {
             var i = 0;
@@ -285,7 +292,8 @@
 
         $('#products_editor').on('click', '#addproduct', function(ev) {
             var product = new Product;
-            var editor = new ProductEditorModal({model: product, saveTo: products})
+            products.add(product);
+            var editor = new ProductEditorModal({model: product})
             editor.render().show();
         })
     })
