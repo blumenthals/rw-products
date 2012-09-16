@@ -22,6 +22,7 @@ class Products extends RWPlugin {
         $results = array();
         foreach($result as $res) {
             unset($res['group']);
+            $res['hidden'] = (bool)$res['hidden'];
             $groupQ->execute(array('id' => $res['id']));
             $res['options'] = $groupQ->fetchAll();
             foreach ($res['options'] as &$optGroup) {
