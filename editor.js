@@ -151,8 +151,10 @@
             'click .doHide': 'hideItem'
         },
         deleteItem: function(ev) {
-            if(confirm("This will permanently remove this product. If you want to temporarily disable it, please use the 'hide' button. \n\nAre you sure you wish to delete this product?")) this.model.destroy();
-            this.$el.remove()
+            if(confirm("This will permanently remove this product. If you want to temporarily disable it, please use the 'hide' button. \n\nAre you sure you wish to delete this product?")) {
+		this.model.destroy();
+                this.$el.remove()
+            }
             ev.stopPropagation();
         },
         hideItem: function(ev) {
