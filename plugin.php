@@ -43,11 +43,12 @@ class Products extends RWPlugin {
             $response->body = json_encode($result);
 
         } elseif ($request->method == 'POST') {
-            $sth = $this->dbc->prepare("INSERT INTO products (title, description, `group`, info, sku, price, weight, image, thumbnail, hidden, sortOrder) VALUES (:title, :description, :group, :info, :sku, :price, :weight, :image, :thumbnail, :hidden, :sortOrder)");
+            $sth = $this->dbc->prepare("INSERT INTO products (title, description, description2, `group`, info, sku, price, weight, image, thumbnail, hidden, sortOrder) VALUES (:title, :description, :description2, :group, :info, :sku, :price, :weight, :image, :thumbnail, :hidden, :sortOrder)");
             $sth->execute(array(
                 ':group' => $request['product_group'],
                 ':title' => $request->content->title,
                 ':description' => $request->content->description,
+                ':description2' => $request->content->description2,
                 ':info' => $request->content->info,
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
@@ -84,12 +85,13 @@ class Products extends RWPlugin {
             $this->dbc->commit();
         } elseif ($request->method == 'PUT') {
             $this->dbc->beginTransaction();
-            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail, hidden = :hidden, sortOrder = :sortOrder WHERE id = :id");
+            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, description2 = :description2, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, image = :image, thumbnail = :thumbnail, hidden = :hidden, sortOrder = :sortOrder WHERE id = :id");
             $sth->execute(array(
                 ':id' => $request['id'],
                 ':group' => $request['product_group'],
                 ':title' => $request->content->title,
                 ':description' => $request->content->description,
+                ':description2' => $request->content->description2,
                 ':info' => $request->content->info,
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
