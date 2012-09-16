@@ -11,7 +11,7 @@
             <div class='upper row'>
                 <div class='productImage span2'>
                     <img src=''>
-					<div style="margin-top:5px;">$<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px; margin-top:5px;"></div>
+                    <div style="margin-top:5px;">$<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px; margin-top:5px;"></div>
                 </div>
                 <div class='majorDetails span3'>
                     <input type='text' name='title' placeholder='Product Title' style="width: 360px;">
@@ -24,7 +24,7 @@
                     <input type='text' name='weight' placeholder='Weight (in lb)' style="float:left; width: 50px; margin-left: 10px; margin-right: 5px;">lbs
                 </div>
             </div>
-			<button class='btn addOptionGroup'>Add Option Group</button><h3 style="width:100px; display: inline-block;">Options:</h3>
+            <button class='btn addOptionGroup'>Add Option Group</button><h3 style="width:100px; display: inline-block;">Options:</h3>
             <div class='productOptionGroups'>
             </div>
         </div>
@@ -35,9 +35,9 @@
             </form>
             <!--<button class='btn dump'>Debug Dump</button>-->
             <div style="float:right; margin-top: 20px; margin-right: 30px;">
-			  <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+              <a href="#" class="btn" data-dismiss="modal">Cancel</a>
               <a href="#" class="btn save btn-primary">Save</a>
-			</div>
+            </div>
         </div>
     </div>
 </script>
@@ -76,7 +76,7 @@
 <script type='text/html' id='ProductThumbnailView'>
     <div class='rw-product-thumbnail'>
         <div class='doHide'>#</div>
-		<div class='doDelete'>X</div>
+        <div class='doDelete'>X</div>
         <img src='' class='image'>
         <p class='field-title'>Product Name</p>
         <p class='field-price'>Price</p>
@@ -84,7 +84,7 @@
 </script>
 <div class='instructions'>
     <h3 style="border-bottom: solid 2px #C54808;">Instructions</h3>
-	<div class="panel">
+    <div class="panel">
     <li>Drag a product to re-arrange it.</li>
     <li>Click on a product to edit it. </li>
     <li>Click the <img src='images/button_hide.png'> on a product to show / hide it.</li>
