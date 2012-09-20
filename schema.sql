@@ -6,8 +6,8 @@ CREATE TABLE products (
     info VARCHAR(255),
     sku VARCHAR(64),
     hidden TINYINT,
-    price NUMERIC,
-    weight NUMERIC,
+    price DECIMAL(10,2),
+    weight DECIMAL(10,2),
     sortOrder INTEGER,
     `group` VARCHAR(256) NOT NULL,
     image VARCHAR(256),
@@ -23,7 +23,7 @@ CREATE TABLE product_option_groups (
 CREATE TABLE product_options (
     name VARCHAR(128) NOT NULL PRIMARY KEY,
     product_group_id BIGINT NOT NULL REFERENCES product_option_groups(id),
-    price NUMERIC
+    price DECIMAL(10,2)
 );
 
 #CREATE UNIQUE INDEX product_option_groups_uniq ON product_option_groups (product_id, name);
