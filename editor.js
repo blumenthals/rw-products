@@ -280,9 +280,38 @@
         },
     });
 
+    var GlobalSetting = Backbone.Model.extend({})
+
+    var GlobalSettings = Backbone.Collection.extend({
+        model: GlobalSetting,
+        url: function() {
+            return $('link[rel=globalsettings]').attr('href')
+        }
+    });
+
+    var GlobalSettingsView = Backbone.View.extend({
+        initialize: function() {
+            this.model = new GlobalSetting({name: 'kill'});
+            this.collection = new GlobalSettings;
+            this.collection.add(this.model);
+            this.$el.modal({show: false}).hide();
+        },
+        show: function() {
+            this.$el.modal('show');
+        },
+        events: {
+            'click .btn': function() {
+                this.$el.modal('hide');
+                this.model.save();
+            },
+            'click input[data-field=kill]': function(ev) {
+                this.model.set('value', $(ev.target).val());
+            }
+        }
+    });
+
     $(function() {
         var products = new Products();
-        window.p = products;
 
         products.fetch({success: function() {
             var productListView = new ProductListView({el: $('.rw-products'), collection: products});
@@ -296,6 +325,12 @@
             var editor = new ProductEditorModal({model: product})
             editor.render().show();
         })
+
+        var globalSettingsView = new GlobalSettingsView({el: $('#global_settings_modal')});
+
+        $('#global_settings').on('click', function(ev) {
+            globalSettingsView.show();
+        });
     })
 
     Backbone.View.Binders.src = function(model, attribute, property) {

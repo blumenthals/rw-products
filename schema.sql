@@ -27,3 +27,8 @@ CREATE TABLE product_options (
 );
 
 #CREATE UNIQUE INDEX product_option_groups_uniq ON product_option_groups (product_id, name);
+
+CREATE TABLE product_settings (
+    name VARCHAR(32) NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);

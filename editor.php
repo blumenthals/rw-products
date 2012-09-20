@@ -100,8 +100,21 @@
 </div>
 <div class='action-button-holder panel'>
     <button class='btn btn-primary' id='addproduct'>Add Product</button>
+    <button class='btn' id='global_settings'>Settings</button>
 </div>
 <div style="clear:both; padding-bottom:10px;"></div>
 <div class='rw-products'>
     <div class='insertion-point'></div>
+</div>
+
+<div id='global_settings_modal' class='hide modal'>
+    <div class='modal-header'>
+        <h3>Settings</h3>
+    </div>
+    <div class='modal-body'>
+        Settings will go here soon
+    </div>
+    <div class='modal-footer'>
+        <button class='btn btn-primary'>Save</button>
+    </div>
 </div>
