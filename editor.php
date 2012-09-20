@@ -10,12 +10,15 @@
             <div class='upper row'>
                 <div class='productImage span2'>
                     <img src=''>
-                    <div style="margin-top:5px;">$<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px; margin-top:5px;"></div>
+					<form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
+					  <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
+					  <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' style="display: none;"></iframe>
+					</form>
                 </div>
                 <div class='majorDetails span3'>
-                    <input type='text' name='title' placeholder='Product Title' style="width: 360px;">
-                    <textarea name='description' placeholder='Product Description' style="width: 360px; height: 60px;"></textarea>
-                    <textarea name='description2' placeholder='Secondary Description' style="width: 360px; height: 60px;"></textarea>
+                    <input type='text' name='title' placeholder='Product Title' style="width: 270px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;">
+                    <textarea name='description' placeholder='Product Description' style="width: 360px; height: 100px;"></textarea>
+                    <textarea name='description2' placeholder='Secondary Description' style="width: 360px; height: 65px;"></textarea>
                 </div>
                 <div class='minorDetails span7' style="line-height: 2em;">
                     <input type='text' name='info' placeholder='Product Info' style="float:left; width: 265px;">
@@ -28,12 +31,8 @@
             </div>
         </div>
         <div class="modal-footer" style="text-align:left;">
-            <form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
-                <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
-                <label>Upload Product Image</label><input type='file' name='img'><iframe id='fileUploadFrame' style="display: none;"></iframe>
-            </form>
             <!--<button class='btn dump'>Debug Dump</button>-->
-            <div style="float:right; margin-top: 20px; margin-right: 30px;">
+            <div style="float:right; margin-right: 30px;">
               <a href="#" class="btn" data-dismiss="modal">Cancel</a>
               <a href="#" class="btn save btn-primary">Save</a>
             </div>
