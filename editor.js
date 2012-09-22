@@ -280,20 +280,20 @@
         },
     });
 
-    var GlobalSetting = Backbone.Model.extend({})
+    var GlobalSetting = Backbone.Model.extend({
+        idAttribute: 'name'
+    })
 
     var GlobalSettings = Backbone.Collection.extend({
         model: GlobalSetting,
         url: function() {
-            return $('link[rel=globalsettings]').attr('href')
+            return $('link[rel=productsSettings]').attr('href')
         }
     });
 
     var GlobalSettingsView = Backbone.View.extend({
         initialize: function() {
-            this.model = new GlobalSetting({name: 'kill'});
             this.collection = new GlobalSettings;
-            this.collection.add(this.model);
             this.$el.modal({show: false}).hide();
         },
         show: function() {
@@ -302,10 +302,18 @@
         events: {
             'click .btn': function() {
                 this.$el.modal('hide');
-                this.model.save();
+                this.collection.each(function(e) {
+                    e.save();
+                });
             },
-            'click input[data-field=kill]': function(ev) {
-                this.model.set('value', $(ev.target).val());
+            'change input[type=checkbox]': function(ev) {
+                var target = $(ev.target);
+                var model;
+                if (!(model = this.collection.get(target.attr('name')))) {
+                    model = new GlobalSetting({name: target.attr('name')});
+                    this.collection.add(model);
+                }
+                model.set('value', target.is(':checked') ? 1 : 0);
             }
         }
     });

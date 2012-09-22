@@ -1,4 +1,5 @@
 <link rel='products' href='<?php echo $this->productsURL ?>/<?php echo $view->page->pagename ?>'>
+<link rel='productsSettings' href='<?php echo $this->globalSettingsURL ?>'>
 <link rel='stylesheet' href='<?php echo $this->baseURL ?>/rw-products.css'>
 <script type='text/html' id='productsEditorTemplate'>
     <div class='modal rwProducts-input' style="width:580px;">
@@ -10,10 +11,10 @@
             <div class='upper row'>
                 <div class='productImage span2'>
                     <img src=''>
-					<form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
-					  <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
-					  <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' style="display: none;"></iframe>
-					</form>
+                    <form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
+                      <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
+                      <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' style="display: none;"></iframe>
+                    </form>
                 </div>
                 <div class='majorDetails span3'>
                     <input type='text' name='title' placeholder='Product Title' style="width: 270px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;">
@@ -110,7 +111,7 @@
         <h3>Settings</h3>
     </div>
     <div class='modal-body'>
-        Settings will go here soon
+        <label>Enable Products <input type='checkbox' name='enableProducts' value='1' <?php echo (bool)$this->getSetting('enableProducts')->value ? 'checked' : '' ?>></input>
     </div>
     <div class='modal-footer'>
         <button class='btn btn-primary'>Save</button>

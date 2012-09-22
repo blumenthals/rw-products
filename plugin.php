@@ -9,6 +9,7 @@ class Products extends RWPlugin {
         $rapidweb->registerPagetype('products', $this);
         $this->dbc = $rapidweb->dbc;
         $this->productsURL = $rapidweb->registerResourceHandler('products', '!products/(?<product_group>[^/]+)(?:/(?<id>[0-9]+))?!', array($this, 'productsResource'));
+        $this->globalSettingsURL = $rapidweb->registerResourceHandler('productsSettings', '!productsSettings/(?<name>\w+)?!', array($this, 'settingsResource'));
     }
 
     private function getProducts($group) {
@@ -34,6 +35,48 @@ class Products extends RWPlugin {
         }
 
         return $results;
+    }
+
+    public function settingsResource($request, $response) {
+        $response->setHeader('Content-Type', 'application/json');
+        if ($request->method == 'GET') {
+            if ($request['name']) {
+                $result = $this->getSetting($request['name']);
+            } else {
+                $result = $this->getAllSettings();
+            }
+        } elseif ($request->method == 'PUT') {
+            if (!$request['name']) {
+                throw new Exception("Can't put a whole collection");
+            }
+
+            $this->setSetting($request['name'], $request->content->value);
+            $result = $this->getSetting($request['name']);
+
+        } else {
+            throw new Exception("Bad method");
+        }
+        $response->body = json_encode($result);
+        return $response;
+    }
+
+    public function setSetting($name, $value) {
+        $q = $this->dbc->prepare("REPLACE INTO product_settings SET name = :name, value = :value");
+        $q->execute(array('name' => $name, 'value' => $value));
+    }
+
+    public function getAllSettings() {
+        $q = $this->dbc->prepare("SELECT name, value FROM product_settings");
+        $q->execute();
+        return $q->fetchAll();
+    }
+
+    public function getSetting($name) {
+        $q = $this->dbc->prepare("SELECT name, value FROM product_settings WHERE name = :name");
+        $q->execute(array('name' => $name));
+        $ret = $q->fetch();
+        $q->closeCursor();
+        return $ret;
     }
 
     public function productsResource($request, $response) {
