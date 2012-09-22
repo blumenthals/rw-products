@@ -43,7 +43,8 @@
 
 <script type='text/html' id='ProductOptionGroupEditor'>
     <div class='productOptionGroup'>
-        <input type="text" placeholder='Option Category Name' name='optionGroupName' style="width:230px; margin-bottom: 5px;"><br>
+        <input type="text" placeholder='Option Category Name' name='optionGroupName' style="width:196px; margin-right: 4px; margin-bottom: 5px;"><button class='btn addOption'>+</button>
+	<br>
         <div class='productOptions'>
         </div>
     </div>

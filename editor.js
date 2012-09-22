@@ -123,6 +123,11 @@
                 this.$el.append(view.render().$el);
             }, this));
             return this.bindModel();
+        },
+        events: {
+            "click .addOption": function() {
+                this.collection.add(new Option);
+            }
         }
     })
 
