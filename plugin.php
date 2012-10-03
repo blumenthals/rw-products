@@ -22,6 +22,9 @@ class Products extends RWPlugin {
 
         $results = array();
         foreach($result as $res) {
+            $res['thumbnail175'] = preg_replace('/150x150/', '175x175', $res['thumbnail']);
+            $res['thumbnail150'] = preg_replace('/150x150/', '150x150', $res['thumbnail']);
+            $res['thumbnail75'] = preg_replace('/150x150/', '75x75', $res['thumbnail']);
             unset($res['group']);
             $res['hidden'] = (bool)$res['hidden'];
             $groupQ->execute(array('id' => $res['id']));

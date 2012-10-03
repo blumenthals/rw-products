@@ -4,7 +4,7 @@
 <div class="title"><?php echo $product->title ?></div>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td style="vertical-align:top;"><div class="photo"><a href="<?php echo $product->image ?>" class="highslide" onclick="return hs.expand(this)"><img src="<?php echo $product->thumbnail ?>" class="prod_photo" width="175" height="175"></a></div></td>
+    <td style="vertical-align:top;"><div class="photo"><a href="<?php echo $product->image ?>" class="highslide" onclick="return hs.expand(this)"><img src="<?php echo $product->thumbnail175 ?>" class="prod_photo" width="175" height="175"></a></div></td>
     <td style="vertical-align:top;"><div class="desc"><?php echo $product->description ?></div>
       <div class="desc2"><?php echo $product->description2 ?></div></td>
     <td class="divider"></td>
