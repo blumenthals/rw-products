@@ -21,9 +21,11 @@ CREATE TABLE product_option_groups (
 );
 
 CREATE TABLE product_options (
-    name VARCHAR(128) NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
     product_group_id BIGINT NOT NULL REFERENCES product_option_groups(id),
-    price DECIMAL(10,2)
+    price DECIMAL(10,2),
+    UNIQUE KEY (name, product_group_id)
 );
 
 #CREATE UNIQUE INDEX product_option_groups_uniq ON product_option_groups (product_id, name);
