@@ -97,16 +97,12 @@
         initialize: function() {
             this.template = _.template($('#ProductOptionGroupEditor').html())
             this.collection = this.model.options; 
-            this.optionViews = this.collection.map(function(option) {
-                return new OptionEditorView({ model: option })
-            });
-            this.collection.bind('add', _.bind(this.optionAdded, this));
-            this.collection.bind('reset', _.bind(this.onReset, this))
-            this.onReset();
+            this.collection.bind('add', this.optionAdded, this);
+            this.collection.bind('reset', this.onReset, this);
         },
         onReset: function() {
             this.optionViews = [];
-            this.$el.children().remove();
+            this.$('.productOptions').children().remove();
             this.collection.each(_.bind(this.optionAdded, this))
         },
         optionAdded: function(option) {
@@ -119,9 +115,7 @@
         },
         render: function() {
             this.setElement(this.template())
-            _.each(this.optionViews, _.bind(function(view) {
-                this.$el.append(view.render().$el);
-            }, this));
+            this.onReset();
             return this.bindModel();
         },
         events: {
