@@ -92,7 +92,7 @@ class Products extends RWPlugin {
     public function getSetting($name) {
         $q = $this->dbc->prepare("SELECT name, value FROM product_settings WHERE name = :name");
         $q->execute(array('name' => $name));
-        $ret = $q->fetch();
+        $ret = $q->fetch(PDO::FETCH_OBJ);
         $q->closeCursor();
         return $ret;
     }
