@@ -2,6 +2,7 @@
 <!--<?php echo json_encode($product); ?>-->
 <?php if($product->hidden == "0"): ?>
 <div class="title"><?php echo $product->title ?></div>
+<a name="<?php echo $product->sku ?>" id="<?php echo $product->sku ?>"></a>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td style="vertical-align:top;"><div class="photo"><a href="<?php echo $product->image ?>" class="highslide" onclick="return hs.expand(this)"><img src="<?php echo $product->thumbnail175 ?>" class="prod_photo" width="175" height="175"></a></div></td>
@@ -30,7 +31,7 @@
           <div class="price" id="price<?php echo $product->id ?>">$<?php echo $product->price ?></div>
           <input type="hidden" name="userid" value="88151914">
           <div class="addtocart">
-            <input type="hidden" name="thumb" value="<?php echo substr($product->thumbnail,1) ?>">
+            <input type="hidden" name="thumb" value="<?php echo substr($product->thumbnail75,1) ?>">
             <input type="hidden" name="units" value="<?php echo $product->weight ?>">
             <input type="hidden" name="productpr" id="product<?php echo $product->id ?>" value="">
             <input type='submit' class='cartbutton' value='Add to Cart'>
