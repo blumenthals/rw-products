@@ -113,7 +113,10 @@
         <h3>Settings</h3>
     </div>
     <div class='modal-body'>
-        <label>Enable Products <input type='checkbox' name='enableProducts' value='1' <?php echo ((int)$this->getSetting('enableProducts')->value) ? 'checked="checked"' : '' ?>></input></label>
+    <span>
+	  <input type='checkbox' name='enableProducts' value='1' <?php echo ((int)$this->getSetting('enableProducts')->value) ? 'checked="checked"' : '' ?>></input>
+	  <label for="xxx"></label>
+	</span>
     </div>
     <div class='modal-footer'>
         <button class='btn btn-primary'>Save</button>

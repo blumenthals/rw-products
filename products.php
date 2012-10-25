@@ -1,7 +1,7 @@
 <?php foreach($this->getProducts($page->pagename, array('hideHidden' => true)) as $product): ?>
 <!--<?php echo json_encode($product); ?>-->
 <?php if($product->hidden == "0"): ?>
-<div class="title"><?php echo $product->title ?></div>
+<div class="title"><?php echo htmlspecialchars($product->title) ?></div>
 <a name="<?php echo $product->sku ?>" id="<?php echo $product->sku ?>"></a>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -41,6 +41,6 @@
   </tr>
 </table>
 <hr />
-<script type='text/javascript'>upd_prod('<?php echo $product->title ?>','<?php echo $product->id ?>',<?php echo $product->price ?>);</script>
+<script type='text/javascript'>upd_prod('<?php echo addslashes($product->title) ?>','<?php echo addslashes($product->id) ?>',<?php echo $product->price ?>);</script>
 <?php endif ?>
 <?php endforeach; ?>
