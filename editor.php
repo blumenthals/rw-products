@@ -14,7 +14,7 @@
                     <img src=''>
                     <form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
                       <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
-                      <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' style="display: none;"></iframe>
+                      <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' name='fileUploadFrame' style="display: none;"></iframe>
                     </form>
                 </div>
                 <div class='majorDetails span3'>
