@@ -105,6 +105,7 @@ class Products extends RWPlugin {
             $response->body = json_encode($result);
 
         } elseif ($request->method == 'POST') {
+            $this->dbc->beginTransaction();
             $sth = $this->dbc->prepare("INSERT INTO products (title, description, description2, `group`, info, sku, price, weight, image, thumbnail, hidden, sortOrder) VALUES (:title, :description, :description2, :group, :info, :sku, :price, :weight, :image, :thumbnail, :hidden, :sortOrder)");
             $sth->execute(array(
                 ':group' => $request['product_group'],
@@ -123,15 +124,29 @@ class Products extends RWPlugin {
 
             $id = $this->dbc->lastInsertId();
 
-            foreach ($request->content->options as $option) {
-                $sth = $this->dbc->prepare("INSERT INTO product_options (name, `product_id`, `option`, price) VALUES (:name, :product_id, :option, :price)");
-                $sth->execute(array(
+            foreach ($request->content->options as $option_group) {
+                if (!$option_group->name) continue;
+                $sth1 = $this->dbc->prepare("INSERT INTO product_option_groups (product_id, name) VALUES (:product_id, :name)");
+                $sth1->execute(array(
                     ':product_id' => $id,
-                    ':name' => $option->name,
-                    ':option' => $option->option,
-                    ':price' => $option->price
+                    ':name' => $option_group->name
                 ));
+
+                $sth = $this->dbc->prepare("SELECT LAST_INSERT_ID() AS product_group_id");
+                $sth->execute();
+                $temp = $sth->fetch();
+                $product_group_id = $temp['product_group_id'];
+                foreach ($option_group->options as $option) {
+                    if (!$option->name) continue;
+                    $sth2 = $this->dbc->prepare("INSERT INTO product_options (name, product_group_id, price) VALUES (:name, :product_group_id, :price)");
+                    $sth2->execute(array(
+                        ':product_group_id' => $product_group_id,
+                        ':name' => $option->name,
+                        ':price' => $option->price
+                    ));
+                }
             }
+            $this->dbc->commit();
 
             $response->body = json_encode(array('id' => $id)); 
 
