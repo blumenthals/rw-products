@@ -12,9 +12,9 @@
         initialize: function() {
             if (!this.options) {
                 this.options = new Options();
-            }
-            while (this.options.length < 4) {
-                this.options.add(new Option());
+                while (this.options.length < 4) {
+                    this.options.add(new Option());
+                }
             }
         },
         parse: function(response) {
