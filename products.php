@@ -33,7 +33,7 @@
             <input type="hidden" name="thumb" value="<?php echo substr($product->thumbnail,1) ?>">
             <input type="hidden" name="units" value="<?php echo $product->weight ?>">
             <input type="hidden" name="productpr" id="product<?php echo $product->id ?>" value="">
-            <input name="image2" class="cartbutton" type="image" onMouseOver="javascript:this.src='rw-content/templates/goblin/images/add_to_cart-over.gif';" onMouseOut="javascript:this.src='rw-content/templates/goblin/images/add_to_cart.gif';" value="Submit" src="rw-content/templates/goblin/images/add_to_cart.gif">
+            <input type='submit' class='cartbutton' value='Add to Cart'>
           </div>
         </form>
       </div></td>
