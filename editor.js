@@ -149,23 +149,27 @@
     var ProductThumbnailView = Backbone.View.extend({
         initialize: function() {
             this.template = _.template($('#ProductThumbnailView').html())
+            this.model.on('change:hidden', this.handleHidden, this);
         },
         events: {
             'click': 'openEditor',
             'click .doDelete': 'deleteItem',
             'click .doHide': 'hideItem'
         },
+        handleHidden: function (model) {
+            this.$el[model.get('hidden') ? 'addClass' : 'removeClass']('hidden');
+        },
         deleteItem: function(ev) {
-            if(confirm("This will permanently remove this product. If you want to temporarily disable it, please use the 'hide' button. \n\nAre you sure you wish to delete this product?")) {
-		this.model.destroy();
-                this.$el.remove()
-            }
             ev.stopPropagation();
+            if(confirm("This will permanently remove this product. If you want to temporarily disable it, please use the 'hide' button. \n\nAre you sure you wish to delete this product?")) {
+                this.model.destroy();
+                this.remove()
+            }
         },
         hideItem: function(ev) {
+            ev.stopPropagation()
             this.model.set('hidden', !this.model.get('hidden'))
             this.model.save()
-            ev.stopPropagation()
         },
         openEditor: function() {
             var editor = new ProductEditorModal({model: this.model})
@@ -175,11 +179,11 @@
             'src .image' : 'thumbnail',
             'text .field-title': 'title',
             'text .field-price': ['price', function(price) { return "$" + price }],
-            'class': ['hidden', function(val) { return val ? 'hidden' : null }]
         },
         render: function() {
             this.setElement(this.template())
             this.$el.data('view', this)
+            this.handleHidden(this.model);
             return this.bindModel();
         }
     });
@@ -242,20 +246,14 @@
         },
         initialize: function() {
             _.bindAll(this);
-            this.collection.bind('add', this.productAdded, this)
-            this.collection.bind('reset', this.onReset, this)
+            this.collection.bind('add', _.bind(this.productAdded, this))
+            this.collection.bind('reset', _.bind(this.render, this))
             this.collection.bind('remove', this.productRemoved, this)
-            this.onReset();
         },
-        onReset: function(e) {
+        render: function(e) {
             this.productViews = [];
             this.$el.children('.rw-product-thumbnail').remove();
             this.collection.each(_.bind(this.appendChildView, this))
-        },
-        render: function() {
-            _.each(this.productViews, _.bind(function(view) {
-                this.$('.insertion-point').before(view.$el);
-            }, this));
             this.$el.sortable({ forcePlaceholderSize: true, tolerance: 'pointer' });
             return this;
         },
@@ -325,12 +323,13 @@
 
     $(function() {
         var products = new Products();
+        var allProducts = new Products();
+        allProducts.url = allProducts.url + '/..';
+        
+        var productListView = new ProductListView({el: $('.rw-products'), collection: products});
 
-        products.fetch({success: function() {
-            var productListView = new ProductListView({el: $('.rw-products'), collection: products});
-            window.v = productListView;
-            productListView.render();
-        }})
+        products.fetch();
+        allProducts.fetch();
 
         $('#products_editor').on('click', '#addproduct', function(ev) {
             var product = new Product;

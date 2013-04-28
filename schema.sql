@@ -14,6 +14,11 @@ CREATE TABLE products (
     thumbnail VARCHAR(256)
 );
 
+CREATE TABLE product_pages (
+    product_id BIGINT NOT NULL REFERENCES products(id),
+    page VARCHAR(256) NOT NULL
+);
+
 CREATE TABLE product_option_groups (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     product_id BIGINT NOT NULL REFERENCES products(id),

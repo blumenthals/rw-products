@@ -1,4 +1,4 @@
-<?php foreach($this->getProducts($page->pagename) as $product): ?>
+<?php foreach($this->getProducts($page->pagename, array('hideHidden' => true)) as $product): ?>
 <!--<?php echo json_encode($product); ?>-->
 <?php if($product->hidden == "0"): ?>
 <div class="title"><?php echo $product->title ?></div>
@@ -43,5 +43,3 @@
 <script type='text/javascript'>upd_prod('<?php echo $product->title ?>','<?php echo $product->id ?>',<?php echo $product->price ?>);</script>
 <?php endif ?>
 <?php endforeach; ?>
-
-<?php return; ?>

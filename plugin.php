@@ -12,8 +12,22 @@ class Products extends RWPlugin {
         $this->globalSettingsURL = $rapidweb->registerResourceHandler('productsSettings', '!productsSettings/(?<name>\w+)?!', array($this, 'settingsResource'));
     }
 
-    private function getProducts($group) {
-        $productQ = $this->dbc->prepare("SELECT * FROM products WHERE `group` = :group ORDER BY sortOrder");
+    private function getProducts($group, array $options = array()) {
+        if (!$group) {
+            if ($options['hideHidden']) {
+                $hiddenQ = 'WHERE !hidden';
+            } else {
+                $hiddenQ = '';
+            }
+            $productQ = $this->dbc->prepare("SELECT DISTINCT products.* FROM products $hiddenQ ORDER BY sortOrder");
+        } else {
+            if ($options['hideHidden']) {
+                $hiddenQ = '!hidden AND';
+            } else {
+                $hiddenQ = '';
+            }
+            $productQ = $this->dbc->prepare("SELECT DISTINCT products.* FROM products LEFT JOIN product_pages ON (product_pages.product_id = products.id) WHERE $hiddenQ (`group` = :group OR product_pages.page = :group) ORDER BY sortOrder");
+        }
         $productQ->execute(array('group' => $group));
         $result = $productQ->fetchAll();
         
@@ -34,6 +48,7 @@ class Products extends RWPlugin {
                 $optGroup['options'] = $optionQ->fetchAll();
             }
 
+            $res['hidden'] = !!$res['hidden'];
             $results[] = new ArrayObject($res, ArrayObject::ARRAY_AS_PROPS);
         }
 

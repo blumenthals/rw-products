@@ -1,6 +1,7 @@
 <link rel='products' href='<?php echo $this->productsURL ?>/<?php echo $view->page->pagename ?>'>
 <link rel='productsSettings' href='<?php echo $this->globalSettingsURL ?>'>
 <link rel='stylesheet' href='<?php echo $this->baseURL ?>/rw-products.css'>
+<link rel='all-products' href='<?php echo $this->productsURL ?>'>
 <script type='text/html' id='productsEditorTemplate'>
     <div class='modal rwProducts-input' style="width:580px;">
         <div class="modal-header">
