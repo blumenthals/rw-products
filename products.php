@@ -1,13 +1,13 @@
 <?php $count == 0; ?>
 <?php foreach($this->getProducts($page->pagename) as $product): ?>
   <?php if ($product->hidden) continue; ?>
-  <?php if (in_array($product->display, array('half-left', 'half-right', 'half-noimage'))): ?>
+  <?php if (in_array($product->layout, array('half-left', 'half-right', 'half-noimage'))): ?>
     <!-- SMALL PRODUCT -->
     <div class="<?php echo $count % 2 ? "item-r" : "item-l" ?>">
     <div class="title"><?php echo htmlspecialchars($product->title) ?></div>
     <a name="<?php echo $product->sku ?>" id="<?php echo $product->sku ?>" class="prod_anchor"></a>
-    <?php if ($product->display != 'half-noimage'): ?>
-      <div class='<?php echo ($product->display == "half-left" ? "smphoto" : "smphoto1") ?>'>
+    <?php if ($product->layout != 'half-noimage'): ?>
+      <div class='<?php echo ($product->layout == "half-left" ? "smphoto" : "smphoto1") ?>'>
         <?php if($product->badge == "new"): ?>
           <div class="wrapper"><div class="new_badge"></div></div>
         <?php endif ?>
@@ -63,9 +63,9 @@
   <?php endif ?>
 <?php else: ?>
   <!-- LARGE PRODUCT -->
-  <div class="item <?php echo $product->display ?>">
-    <?php if ($product->display != 'heading' and $product->display != 'full-noimage'): ?>
-      <div class='<?php echo $product->display == "full-left" ? "photo" : "photo1" ?>'>
+  <div class="item <?php echo $product->layout ?>">
+    <?php if ($product->layout != 'heading' and $product->layout != 'full-noimage'): ?>
+      <div class='<?php echo $product->layout == "full-left" ? "photo" : "photo1" ?>'>
         <?php if($product->badge == "new"): ?>
           <div class="wrapper"><div class="new_badge"></div></div>
         <?php endif ?>
@@ -75,7 +75,7 @@
         <a href="<?php echo $product->image ?>" class="highslide" onclick="return hs.expand(this)"><img src="<?php echo $product->image ?>" class="prod_photo"></a>
       </div>
     <?php endif ?>
-    <div class="title <?php if($product->display =="heading") echo "head"; ?>"><?php echo htmlspecialchars($product->title) ?></div>
+    <div class="title <?php if($product->layout =="heading") echo "head"; ?>"><?php echo htmlspecialchars($product->title) ?></div>
     <a name="<?php echo $product->sku ?>" id="<?php echo $product->sku ?>" class="prod_anchor"></a>
     <?php if(!empty($product->description)): ?>
       <div class="desc"><?php echo nl2br($product->description) ?></div>
@@ -119,7 +119,7 @@
       -->
     </div>
     <div style="clear:both;"></div>
-    <?php if($product->display !="heading"): ?>
+    <?php if($product->layout != "heading"): ?>
       <hr>
     <?php endif ?>
   <?php endif ?>

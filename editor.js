@@ -84,7 +84,7 @@
             'value [name="price"]' : 'price',
             'value [name="info"]' : 'info',
             'value [name="weight"]' : 'weight',
-            'value [name="display"]' : 'display',
+            'value [name="layout"]' : 'layout',
             'value [name="badge"]' : 'badge',
             'value [name="sku"]' : 'sku',
             'value [name="description2"]' : 'description2',

@@ -106,7 +106,7 @@ class Products extends RWPlugin {
 
         } elseif ($request->method == 'POST') {
             $this->dbc->beginTransaction();
-            $sth = $this->dbc->prepare("INSERT INTO products (title, description, description2, `group`, info, sku, price, weight, display, badge, image, thumbnail, hidden, sortOrder) VALUES (:title, :description, :description2, :group, :info, :sku, :price, :weight, :display, :badge, :image, :thumbnail, :hidden, :sortOrder)");
+            $sth = $this->dbc->prepare("INSERT INTO products (title, description, description2, `group`, info, sku, price, weight, layout, badge, image, thumbnail, hidden, sortOrder) VALUES (:title, :description, :description2, :group, :info, :sku, :price, :weight, :layout, :badge, :image, :thumbnail, :hidden, :sortOrder)");
             $sth->execute(array(
                 ':group' => $request['product_group'],
                 ':title' => $request->content->title,
@@ -116,7 +116,7 @@ class Products extends RWPlugin {
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
-                ':display' => $request->content->display,
+                ':layout' => $request->content->layout,
                 ':badge' => $request->content->badge,
                 ':image' => $request->content->image,
                 ':thumbnail' => $request->content->thumbnail,
@@ -164,7 +164,7 @@ class Products extends RWPlugin {
             $this->dbc->commit();
         } elseif ($request->method == 'PUT') {
             $this->dbc->beginTransaction();
-            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, description2 = :description2, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, display = :display, badge = :badge, image = :image, thumbnail = :thumbnail, hidden = :hidden, sortOrder = :sortOrder WHERE id = :id");
+            $sth = $this->dbc->prepare("UPDATE products SET title = :title, description = :description, description2 = :description2, `group` = :group, info = :info, sku = :sku, price = :price, weight = :weight, layout = :layout, badge = :badge, image = :image, thumbnail = :thumbnail, hidden = :hidden, sortOrder = :sortOrder WHERE id = :id");
             $sth->execute(array(
                 ':id' => $request['id'],
                 ':group' => $request['product_group'],
@@ -175,7 +175,7 @@ class Products extends RWPlugin {
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
                 ':weight' => $request->content->weight,
-                ':display' => $request->content->display,
+                ':layout' => $request->content->layout,
                 ':badge' => $request->content->badge,
                 ':image' => $request->content->image,
                 ':thumbnail' => $request->content->thumbnail,

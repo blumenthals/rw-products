@@ -24,7 +24,7 @@
 					</select>
                 </div>
                 <div class='majorDetails span6' style="width: 640px;">
-                    <input type='text' name='title' placeholder='Product Title' style="width: 320px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;"> Layout:<select style="width: 190px;" name="display" id="disp">
+                    <input type='text' name='title' placeholder='Product Title' style="width: 320px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;"> Layout:<select style="width: 190px;" name="layout" id="disp">
 					  <option value="half-left">Half - Image Left</option>
 					  <option value="half-right">Half - Image Right</option>
 					  <option value="half-noimage">Half - No Image</option>
@@ -78,7 +78,7 @@
         <p><img class='image' src=''></p>
         <p>Price <span class='price'>$51.00</span></p>
         <p>Weight <span class='weight'>21 kg</span></p>
-        <p>Display Type <span class='display'>--</span></p>
+        <p>Layout <span class='layout'>--</span></p>
         <p>New Product <span class='badge'>--</span></p>
         <p>Taxable <span class='taxable'>Y</span></p>
         <div class='options'></div>
