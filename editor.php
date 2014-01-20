@@ -14,16 +14,30 @@
                     <img src=''>
                     <form action='<?php echo $this->rapidweb->getRouteNamed('gallery-file-upload')->url; ?>' method='POST' class='file-upload btn' target='fileUploadFrame' enctype='multipart/form-data'>
                       <input type='hidden' name='pagename' value='<?php echo $view->page->pagename; ?>'>
-                      <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' name='fileUploadFrame' style="display: none;"></iframe>
+                      <label>Upload Image</label><input type='file' name='img'><iframe id='fileUploadFrame' name='fileUploadFrame' style='display: none;'></iframe>
                     </form>
+					<br /><br /><a href='http://tablegen.nfshost.com' target="_blank" class="btn" style="display: block;">Table Generator</a>
+					<br />Badge:<select style="width: 90px;" name="badge" id="badge">
+					  <option value="none">None</option>
+					  <option value="new">New!</option>
+					  <option value="sale">Sale</option>
+					</select>
                 </div>
-                <div class='majorDetails span3'>
-                    <input type='text' name='title' placeholder='Product Title' style="width: 270px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;">
-                    <textarea name='description' placeholder='Product Description' style="width: 360px; height: 100px;"></textarea>
-                    <textarea name='description2' placeholder='Secondary Description' style="width: 360px; height: 65px;"></textarea>
+                <div class='majorDetails span6' style="width: 640px;">
+                    <input type='text' name='title' placeholder='Product Title' style="width: 320px;"> $<input type='text' name='price' placeholder='Price' style="width: 50px; margin-left:5px;"> Layout:<select style="width: 190px;" name="display" id="disp">
+					  <option value="half-left">Half - Image Left</option>
+					  <option value="half-right">Half - Image Right</option>
+					  <option value="half-noimage">Half - No Image</option>
+					  <option value="full-left">Full - Image Left</option>
+					  <option value="full-right">Full - Image Right</option>
+					  <option value="full-noimage">Full - No Image</option>
+					  <option value="heading">Heading</option>
+					</select>
+                    <textarea name='description' placeholder='Product Description' style="width: 660px; height: 140px;"></textarea>
+                    <textarea name='description2' placeholder='Secondary Description' style="width: 660px; height: 105px;"></textarea>
                 </div>
-                <div class='minorDetails span7' style="line-height: 2em;">
-                    <input type='text' name='info' placeholder='Product Info' style="float:left; width: 265px;">
+                <div class='minorDetails span7' style="line-height: 2em; width: 670px;">
+                    <input type='text' name='info' placeholder='Product Info' style="float:left; width: 445px;">
                     <input type='text' name='sku' placeholder='Product ID / SKU' style="float:left; width: 130px; margin-left: 10px;">
                     <input type='text' name='weight' placeholder='Weight (in lb)' style="float:left; width: 50px; margin-left: 10px; margin-right: 5px;">lbs
                 </div>
@@ -64,6 +78,8 @@
         <p><img class='image' src=''></p>
         <p>Price <span class='price'>$51.00</span></p>
         <p>Weight <span class='weight'>21 kg</span></p>
+        <p>Display Type <span class='display'>--</span></p>
+        <p>New Product <span class='badge'>--</span></p>
         <p>Taxable <span class='taxable'>Y</span></p>
         <div class='options'></div>
     </div>

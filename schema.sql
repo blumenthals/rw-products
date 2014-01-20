@@ -8,6 +8,8 @@ CREATE TABLE products (
     hidden TINYINT,
     price DECIMAL(10,2),
     weight DECIMAL(10,2),
+    display ENUM('full-left', 'full-right', 'full-noimage', 'half-left', 'half-right', 'half-noimage', 'heading') DEFAULT 'full-right',
+    badge ENUM('none', 'new', 'sale') DEFAULT 'none',
     sortOrder INTEGER,
     `group` VARCHAR(256) NOT NULL,
     image VARCHAR(256),
