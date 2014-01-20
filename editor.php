@@ -130,7 +130,7 @@
     </div>
     <div class='modal-body'>
     <span>
-	  <input type='checkbox' name='enableProducts' value='1' <?php echo ((int)$this->getSetting('enableProducts')->value) ? 'checked="checked"' : '' ?>></input>
+	  <input type='checkbox' name='enableProducts' class='enable_products' value='1' <?php echo ((int)$this->getSetting('enableProducts')->value) ? 'checked="checked"' : '' ?>></input>
 	  <label for="xxx"></label>
 	</span>
     </div>
