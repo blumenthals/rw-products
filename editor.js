@@ -45,8 +45,8 @@
             return response;
         },
         toJSON: function() {
-            var out = _.clone(this.attributes)
-            out.options = this.options.toJSON()           
+            var out = _.clone(this.attributes);
+            out.options = this.options.toJSON();
             return out
         }
     })
