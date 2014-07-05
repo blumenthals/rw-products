@@ -115,7 +115,7 @@ class Products extends RWPlugin {
                 ':info' => $request->content->info,
                 ':sku' => $request->content->sku,
                 ':price' => $request->content->price,
-                ':weight' => $request->content->weight,
+                ':weight' => $request->content->weight ?: null,
                 ':layout' => $request->content->layout,
                 ':badge' => $request->content->badge,
                 ':image' => $request->content->image,
