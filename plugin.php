@@ -74,6 +74,7 @@ class Products extends RWPlugin {
         } else {
             throw new Exception("Bad method");
         }
+	header('Status: 200 OK');
         $response->body = json_encode($result);
         return $response;
     }
@@ -150,6 +151,7 @@ class Products extends RWPlugin {
             }
             $this->dbc->commit();
 
+	    header('Status: 200 OK');
             $response->body = json_encode(array('id' => $id)); 
 
         } elseif ($request->method == 'DELETE') {
@@ -216,6 +218,7 @@ class Products extends RWPlugin {
         } else {
             throw new Exception("Unknown request method {$request->method}");
         }
+        header('Status: 200 OK');
         return $response;
     }
 
